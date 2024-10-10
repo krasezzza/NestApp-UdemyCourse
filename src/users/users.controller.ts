@@ -16,8 +16,11 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { UserDto } from './dto/user.dto';
 
 @Controller()
+@Serialize(UserDto)
 export class UsersController {
   constructor(
     private authService: AuthService,
