@@ -11,14 +11,23 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { AuthService } from './auth.service';
 
-@Controller('auth')
+@Controller()
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private authService: AuthService,
+    private usersService: UsersService,
+  ) {}
 
-  @Post('signup')
+  @Post('auth/signup')
   createUser(@Body() body: CreateUserDto) {
-    this.usersService.create(body.email, body.password);
+    return this.authService.signup(body.email, body.password);
+  }
+
+  @Post('auth/signin')
+  loginUser(@Body() body: CreateUserDto) {
+    return this.authService.signin(body.email, body.password);
   }
 
   @Get('user/:id')
@@ -28,7 +37,7 @@ export class UsersController {
 
   @Get('users')
   findUserBy(@Query('email') email: string) {
-    return this.usersService.findMany(email);
+    return this.usersService.find(email);
   }
 
   @Get('users')

@@ -12,6 +12,10 @@ export class UsersService {
     return this.repo.save(user);
   }
 
+  find(email: string) {
+    return this.repo.find({ where: { email } });
+  }
+
   async findOne(id: number) {
     const user = await this.repo.findOneBy({ id });
     if (!user) {
@@ -22,10 +26,6 @@ export class UsersService {
 
   findAll() {
     return this.repo.find();
-  }
-
-  findMany(email: string) {
-    return this.repo.find({ where: { email } });
   }
 
   async update(id: number, attrs: Partial<User>) {
