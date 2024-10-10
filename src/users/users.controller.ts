@@ -8,11 +8,14 @@ import {
   Query,
   Delete,
   Session,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthService } from './auth.service';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller()
 export class UsersController {
@@ -22,8 +25,9 @@ export class UsersController {
   ) {}
 
   @Get('auth/whoami')
-  whoAmI(@Session() session: any) {
-    return this.usersService.findOne(session.userId);
+  @UseGuards(AuthGuard)
+  whoAmI(@CurrentUser() currentUser: string) {
+    return currentUser;
   }
 
   @Post('auth/signup')
