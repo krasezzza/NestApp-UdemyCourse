@@ -48,31 +48,37 @@ export class UsersController {
   }
 
   @Post('auth/signout')
+  @UseGuards(AuthGuard)
   logoutUser(@Session() session: any) {
     session.userId = null;
   }
 
   @Get('user/:id')
+  @UseGuards(AuthGuard)
   findUser(@Param('id') id: string) {
     return this.usersService.findOne(parseInt(id));
   }
 
   @Get('users')
+  @UseGuards(AuthGuard)
   findUserBy(@Query('email') email: string) {
     return this.usersService.find(email);
   }
 
   @Get('users')
+  @UseGuards(AuthGuard)
   findAllUsers() {
     return this.usersService.findAll();
   }
 
   @Delete('user/:id')
+  @UseGuards(AuthGuard)
   deleteUser(@Param('id') id: string) {
     return this.usersService.delete(parseInt(id));
   }
 
   @Patch('user/:id')
+  @UseGuards(AuthGuard)
   updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
     return this.usersService.update(parseInt(id), body);
   }

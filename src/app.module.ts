@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/user.entity';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { OffersModule } from './offers/offers.module';
+import { Offer } from './offers/offer.entity';
 
 @Module({
   imports: [
@@ -17,11 +19,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       useFactory: (config: ConfigService) => ({
         type: 'sqlite',
         database: config.get<string>('DB_NAME'),
-        entities: [User],
+        entities: [User, Offer],
         synchronize: true,
       }),
     }),
     UsersModule,
+    OffersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
